@@ -1,83 +1,78 @@
 
-$(document).ready(function(){
+$(document).ready(function() {
 
-	var computerChoice = Math.floor(Math.random() * 101);
+	var computerChoice;
+	var guessNumber; 
+	var lastDifference;
+
+	function newGame() {
+		guessNumber = 0;
+		lastDifference = NaN;
+		computerChoice = Math.floor(Math.random() * 101);
 		console.log(computerChoice);
-	
+		$('#count').html('0');
+		$('.game>ul').html('');
+		$('#feedback').html('Make your Guess!');
+	}
+
+	newGame();
+
+	//On clicking new game
+	$('.new').on('click',function(){
+		newGame();
+	});
+
 //	function newGame() {
 //		computerChoice;
 //	}
 
-	$('#guessButton').on('click', function(){
-		var userGuess = $('input').val();
-			console.log(userGuess);
+//  = Math.abs(); 
+
+	$('#guessButton').on('click', function(e){
+		e.preventDefault();
+
+		guessNumber++;
+		$('#count').html(guessNumber);
+
+		var userGuess = $('#userGuess').val();
+		console.log(userGuess);
 
  		if (isNaN(userGuess)) {
  			alert('Not a number! Please enter a number!');
  		} else {
  			$('.game>ul').append('<li>' + userGuess + '</li>');
- 			if (userGuess ===  computerChoice){
- 				$('#feedback').append('YAY - You got it!');
- 			} else if (userGuess < computerChoice + 10){
- 				$('#feedback').append('YAY - You got it!');
- 			} else if (userGuess < computerChoice + 30){
- 				$('#feedback').append('YAY - You got it!');
- 		//	} else (userGuess < computerChoice + 50){
- 		//		console.log('very cold');
+ 			var currentDifference = Math.abs(computerChoice - userGuess);
+
+
+ 			if (currentDifference == 0){
+ 				$('#feedback').html('You got it!');
+ 			
+ 			} else if (currentDifference == lastDifference || isNaN(lastDifference)) {
+
+ 				// Absolute comparison
+ 				if (currentDifference <= 10) {
+ 					$('#feedback').html('Hot');
+ 				} else if (currentDifference <=30) {
+ 					$('#feedback').html('Warm');
+ 				} else {
+ 					$('#feedback').html('Cold');
+ 				}
+ 			} else {
+	 			// Relative comparison
+	 			if (currentDifference < lastDifference) {
+	 				$('#feedback').html('Getting warmer');
+	 			} else if (currentDifference > lastDifference) {
+	 				$('#feedback').html('Getting colder');
+	 			}
  			}
+ 			
+ 			$('#userGuess').val('');
+ 			lastDifference = Math.abs(computerChoice - userGuess);
  		}
- 	})
+ 	});	
 });
 
 
 
 
-	/*
-	//Changing userGuess value to interger
-	function userGuesss() {
-		return parseInt('input');
-	}
-
-	var uG = userGuess();
-	console.log(uG);
-
-	//Make sure userGuess is a number
-	if (isNaN(uG)) {
-		alert('Not a number! Please enter a number!');
-	};
-
-	//On clicking button
-	$('#guessButton').on('click', function(){
-
-		$('#guessList').append('<p>' + uG + '</p>');
-
-		if (value == '') {
-			   	alert("You haven't entered anything to add");
-		} else if (uG == computerChoice) {
-			console.log("BINGO!");
-		} else if (uG <= computerChoice + 10) {
-			console.log("Very Warm");
-		} else if (uG <= computerChoice + 20) {
-			console.log("Warm");
-		} else if (uG <= computerChoice + 40) {
-			console.log("Cold");
-		} else (uG <= computerchoice + 50) {
-			console.log("Very cold!");
-		}
-	});
-*/
-
-	/*Display information modal box
-  	$(".what").click(function(){
-    	$(".overlay").fadeIn(1000);
-  	});
-
-  	/*--- Hide information modal box ---
-  	$("a.close").click(function(){
-  		$(".overlay").fadeOut(1000);
-  	});
-	*/
-
-
-
-
+	
