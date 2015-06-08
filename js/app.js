@@ -37,6 +37,11 @@ $(document).ready(function() {
 		var userGuess = $('#userGuess').val();
 		console.log(userGuess);
 
+		if (userGuess > 100) {
+
+			alert("Not a valid entry");
+		}
+
  		if (isNaN(userGuess)) {
  			alert('Not a number! Please enter a number!');
  		} else {
