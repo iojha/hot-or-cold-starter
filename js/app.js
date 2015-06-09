@@ -1,55 +1,51 @@
 
 $(document).ready(function() {
-
+	// creating the initial variables
 	var computerChoice;
 	var guessNumber; 
 	var lastDifference;
 
+	// newGame function to renew game w/o refreshing page
 	function newGame() {
-		guessNumber = 0;
-		lastDifference = NaN;
-		computerChoice = Math.floor(Math.random() * 101);
+		guessNumber = 0; // no guesses yet
+		lastDifference = NaN; // if lastDifference is NaN then it will run the absolute conditions
+		computerChoice = Math.floor(Math.random() * 101); //new computerChoice generation
 		console.log(computerChoice);
-		$('#count').html('0');
-		$('.game>ul').html('');
-		$('#feedback').html('Make your Guess!');
+		$('#count').html('0'); //resetting the counter
+		$('.game>ul').html(''); // emptying out previous guess container
+		$('#feedback').html('Make your Guess!'); //resetting the feedback
 	}
 
-	newGame();
+	newGame(); //calling the function so it runs initially
 
-	//On clicking new game
+	//On clicking new game on top right-hand side
 	$('.new').on('click',function(){
 		newGame();
 	});
 
-//	function newGame() {
-//		computerChoice;
-//	}
 
-//  = Math.abs(); 
+	$('#guessButton').on('click', function(e){ //submitting guess
+		e.preventDefault();//preventing  javascripts default refreshes
 
-	$('#guessButton').on('click', function(e){
-		e.preventDefault();
+		guessNumber++; // increasing counter by 1 each time user makes a guess
+		$('#count').html(guessNumber); //replaces previous count with new one in the counter
 
-		guessNumber++;
-		$('#count').html(guessNumber);
-
-		var userGuess = $('#userGuess').val();
+		var userGuess = $('#userGuess').val();// get the value of the user guess
 		console.log(userGuess);
 
-		if (userGuess > 100) {
+		if (userGuess > 100) { // checking to see if guess is within 1 to 100 range
 
 			alert("Not a valid entry");
 		}
 
- 		if (isNaN(userGuess)) {
+ 		if (isNaN(userGuess)) { //checking to see if guess is a number
  			alert('Not a number! Please enter a number!');
- 		} else {
+ 		} else { 
  			$('.game>ul').append('<li>' + userGuess + '</li>');
- 			var currentDifference = Math.abs(computerChoice - userGuess);
+ 			var currentDifference = Math.abs(computerChoice - userGuess); //dif between computerChoice and userGuess (in absolute, so no decimals)
 
 
- 			if (currentDifference == 0){
+ 			if (currentDifference == 0){ //if there is no difference between cmputerChoice and userGuess
  				$('#feedback').html('You got it!');
  			
  			} else if (currentDifference == lastDifference || isNaN(lastDifference)) {
@@ -71,8 +67,8 @@ $(document).ready(function() {
 	 			}
  			}
  			
- 			$('#userGuess').val('');
- 			lastDifference = Math.abs(computerChoice - userGuess);
+ 			$('#userGuess').val(''); 
+ 			lastDifference = Math.abs(computerChoice - userGuess); //so we know whether it is hotter or colder than before
  		}
  	});	
 });
